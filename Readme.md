@@ -100,17 +100,105 @@
 
 - Form 데이터 처리하기
 
-  - path param
+  ```python
+  # app.py
+  @app.route('/naver')
+  def fake_naver():
+      return render_template('naver.html')
+  
+  @app.route('/naver/search')
+  def fake_naver_search():
+      # 검색 로직
+      query = request.args.get('query')
+      return render_template('search.html', q = query)
+  
+  ```
+
+  ```html
+  <!-- templates/naver.html -->
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Document</title>
+  </head>
+  <body>
+      <!-- form태그를 이용해서 검색창(
+          검색어 입력, 검색 버튼) 만들기 -->
+      <form action="/naver/search" method="GET">
+          <input type="text" name="query">
+          <input type="submit">
+      </form>
+  </body>
+  </html>
+  ```
+
+  ```html
+  <!-- templates/search.html -->
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Document</title>
+  </head>
+  <body>
+      '{{q}}'에 대한 검색 결과입니다.
+  </body>
+  </html>
+  ```
+
+- Fake Login
+
+  - 로그인 창 -> 로그인 로직 -> 리다이렉트 페이지
+
+  - ```python
+    # app.py
+    @app.route('/login')
+    def login_form():
+        # 아이디 입력창, 패스워드 입력창, 로그인 버튼
+        return render_template('login.html')
+    
+    @app.route('/login/submit', methods=['POST'])
+    def login():
+        # 아이디를 조회하고, 해당 row의 비밀번호가 일치하는지 확인
+        # 로그인 로직
+        # return render_template('success.html')
+        return redirect(url_for('main'))
+    
+    @app.route('/main')
+    def main():
+        return '로그인에 성공하셨습니다. 메인페이지 입니다.'
+    
+    ```
+
+  - ```html
+    <!-- templates/login.html -->
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <form action="/login/submit" method="POST">
+            <input type="text" name="id">
+            <input type="password" name="password">
+            <input type="submit">
+        </form>
+    </body>
+    </html>
+    ```
+
+- REST API에 대한 간략 설명
+
+  - [참고자료]( https://bcho.tistory.com/953 )
 
 - Django 입문
 
   - 이번주 아이디어톤 전까지는 장고의 파일구조 살펴보기
-    - 프로젝트 > 어플리케이션
-  - ORM 빼고 계속 새로운 프로젝트로 재미난거 만들기
-    - 신이 나를 만들때
-    - 로또 번호 생성기
-    - ...
-  - 이번주 아이디어톤 이후에 CRUD -> ORM
-  - 다음주 내내 CRUD 가지고 재밋는거 ~~ 예에
-
-  
